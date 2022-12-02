@@ -10,6 +10,73 @@ public class Day02 {
 
     public static void main(String[] args) {
 
+        part01();
+        part02();
+
+    }
+
+    public static void part02() {
+
+        //A Rock
+        //B Paper
+        //C Scissors
+
+        //X loose
+        //Y draw
+        //Z win
+
+        HashMap<String, Integer> resultScore = new HashMap<>();
+        resultScore.put("X", 0);
+        resultScore.put("Y", 3);
+        resultScore.put("Z", 6);
+
+        HashMap<String, Integer> shapes = new HashMap<>();
+        shapes.put("A", 0);
+        shapes.put("B", 1);
+        shapes.put("C", 2);
+        shapes.put("X", 0);
+        shapes.put("Y", 1);
+        shapes.put("Z", 2);
+
+        int totalScore = 0;
+
+        try (BufferedReader br = new BufferedReader(new FileReader("src/day02/input.txt"))) {
+
+            String line;
+            while ((line = br.readLine()) != null) {
+
+                int score = 0;
+
+                String result = line.substring(2);
+                score += resultScore.get(result);
+
+                int s = shapes.get(line.substring(0, 1));
+                int s2;
+
+                if (result.equals("X")) {
+                    s2 = ((s - 1) + 3) % 3;
+                } else if (result.equals("Y")) {
+                    s2 = s;
+                } else {
+                    s2 = (s + 1) % 3;
+                }
+
+                score += s2 + 1;
+
+                totalScore += score;
+
+            }
+
+            System.out.println("Part 02 total score: " + totalScore);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void part01() {
+
         //A  X  Rock
         //B  Y  Paper
         //C  Z  Scissors
@@ -43,12 +110,11 @@ public class Day02 {
 
             }
 
-            System.out.println("TotalScore: " + totalScore);
+            System.out.println("Part 01 total score: " + totalScore);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
     }
 }
