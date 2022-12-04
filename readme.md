@@ -4,4 +4,4 @@
 
 - [Day 01: Calorie Counting](src/day01/Day01.java)
 - [Day 02: Rock Paper Scissors](src/day02/Day02.java)
-- 
+- [Day 03: Rucksack Reorganization](src/day03/Day03.java)
