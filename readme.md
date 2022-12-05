@@ -6,3 +6,5 @@
 - [Day 02: Rock Paper Scissors](src/day02/Day02.java)
 - [Day 03: Rucksack Reorganization](src/day03/Day03.java)
 - [Day 04: Camp Cleanup](src/day04/Day04.java)
+- [Day 05: Supply Stacks](src/day05/Day05.java)
+- 
