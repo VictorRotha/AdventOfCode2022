@@ -7,4 +7,5 @@
 - [Day 03: Rucksack Reorganization](src/day03/Day03.java)
 - [Day 04: Camp Cleanup](src/day04/Day04.java)
 - [Day 05: Supply Stacks](src/day05/Day05.java)
-- 
+- [Day 06: Tuning Trouble](src/day06/Day06.java)
+
