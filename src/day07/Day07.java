@@ -44,13 +44,27 @@ public class Day07 {
                 }
             }
 
-            int result = 0;
+            int fileSysSize = 70000000;
+            int minFree = 30000000;
+            int maxUsed = fileSysSize - minFree;
+
+            int currentUsedSize = dirSize.get("root/");
+            int minToDelete = currentUsedSize - maxUsed;
+
+            int deleteCandidate = currentUsedSize;
+
+            int resultPartOne = 0;
             for (String s : dirSize.keySet()) {
-                if (dirSize.get(s) < 100000)
-                    result += dirSize.get(s);
+                int size = dirSize.get(s);
+                if (size < 100000)
+                    resultPartOne += size;
+                if (size >= minToDelete) {
+                    deleteCandidate = Math.min(deleteCandidate, size);
+                }
             }
 
-            System.out.println("Part 01 result: " + result);
+            System.out.println("Part 01 result: " + resultPartOne);
+            System.out.println("Part 02 result: " + deleteCandidate);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -66,6 +80,5 @@ public class Day07 {
         }
 
         return sb.toString();
-
     }
 }
