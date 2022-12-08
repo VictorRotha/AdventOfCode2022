@@ -10,7 +10,7 @@ public class Day08 {
 
     public static void main(String[] args) {
 
-        String filename = "src/day08/input.txt";
+        String filename = "src/day08/testinput.txt";
 
         ArrayList<int[]> rows = new ArrayList<>();
 
@@ -31,18 +31,81 @@ public class Day08 {
         int[][] grid = rows.toArray(new int[0][]);
 
         int visible = 0;
+        int maxScore = 0;
 
         for (int j = 0; j < grid.length; j++) {
             for (int i = 0; i < grid[j].length; i++) {
+
                 if (!isBlocked(grid, j, i))
                     visible ++;
+
+                maxScore = Math.max(maxScore, viewingScore(grid, j, i));
             }
         }
 
-        System.out.println("visible trees: " + visible);
+        System.out.println("Part 01: visible trees:    " + visible);
+        System.out.println("Part 02: max scenic score: " + maxScore);
 
 
     }
+
+    public static int viewingScore(int[][] grid, int row, int col) {
+
+        return viewingRight(grid, row, col) *
+                viewingLeft(grid, row, col) *
+                viewingUp(grid, row, col) *
+                viewingDown(grid, row, col);
+
+    }
+
+    public static int viewingRight(int[][] grid, int row, int col) {
+
+        int dist = 0;
+        for (int i =  col + 1; i < grid[row].length; i++) {
+            dist ++;
+            if (grid[row][i] >= grid[row][col])
+                break;
+
+        }
+        return dist;
+    }
+
+    public static int viewingLeft(int[][] grid, int row, int col) {
+
+        int dist = 0;
+        for (int i =  col - 1; i >= 0; i--) {
+            dist ++;
+            if (grid[row][i] >= grid[row][col])
+                break;
+
+        }
+        return dist;
+    }
+
+    public static int viewingDown(int[][] grid, int row, int col) {
+
+        int dist = 0;
+        for (int i =  row + 1; i < grid.length; i++) {
+            dist ++;
+            if (grid[i][col] >= grid[row][col])
+                break;
+
+        }
+        return dist;
+    }
+
+    public static int viewingUp(int[][] grid, int row, int col) {
+
+        int dist = 0;
+        for (int i =  row - 1; i >= 0; i--) {
+            dist ++;
+            if (grid[i][col] >= grid[row][col])
+                break;
+
+        }
+        return dist;
+    }
+
 
     public static boolean isBlocked(int[][] grid, int row, int col) {
         return  isBlockedLeft(grid, row, col) &&
