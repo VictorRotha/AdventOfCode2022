@@ -3,74 +3,78 @@ package day09;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 public class Day09 {
 
-    private int hx, hy, tx, ty;
 
-    private final int[] ropeX = new int[10];
-    private final int[] ropeY = new int[10];
+    public static void  main(String[] args) {
 
-    public Day09() {
+        String filename = "src/day09/input.txt";
+        List<String[]> input = getInput(filename);
 
-        String filename = "src/day09/testinput.txt";
+        System.out.println("rope length  2: " + move(input, 2));
+        System.out.println("rope length 10: " + move(input, 10));
+    }
+
+
+    private static int  move(List<String[]> input, int ropeLength) {
+
+        int[] ropeX = new int[ropeLength];
+        int[] ropeY = new int[ropeLength];
 
         HashSet<String> visited = new HashSet<>();
-        HashSet<String> visited2 = new HashSet<>();
+        visited.add(stringify(0, 0));
+
+        for(String[] command : input) {
+            String direction = command[0];
+            int steps = Integer.parseInt(command[1]);
+
+            for (int i = 0; i < steps; i++) {
+
+                switch (direction) {
+                    case "R" -> ropeX[0]++;
+                    case "L" -> ropeX[0]--;
+                    case "D" -> ropeY[0]++;
+                    case "U" -> ropeY[0]--;
+                }
+
+                for (int j = 1; j < ropeX.length; j++) {
+                    followPrevious(j, ropeX, ropeY);
+                }
+
+                visited.add(stringify(ropeX[ropeLength - 1], ropeY[ropeLength - 1]));
+            }
+
+        }
+
+        return visited.size();
+
+    }
+
+    private static List<String[]> getInput(String filename) {
+
+        ArrayList<String[]> result = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
 
             String line;
             while ((line = br.readLine()) != null) {
-
-                String[] command = line.split(" ");
-                String direction = command[0];
-                int steps = Integer.parseInt(command[1]);
-
-                visited.add(stringify(0, 0));
-                visited2.add(stringify(0, 0));
-
-                for (int i = 0; i < steps; i++) {
-
-                    //part 01
-                    moveHead(direction);
-                    follow(direction);
-                    visited.add(stringify(tx, ty));
-
-                    //part 02
-                    moveRopeHead(direction);
-                    for (int j = 1; j < ropeX.length; j++) {
-                        followPrevious(j);
-                    }
-                    visited2.add(stringify(ropeX[9], ropeY[9]));
-                }
-
+                result.add(line.split(" "));
             }
-
-            System.out.println("Part 01: visited by tail: " + visited.size());
-            System.out.println("Part 02: visited by tail: " + visited2.size());
-
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-    }
-
-
-    private void moveRopeHead(String direction) {
-
-        switch (direction) {
-            case "R" -> ropeX[0]++;
-            case "L" -> ropeX[0]--;
-            case "D" -> ropeY[0]++;
-            case "U" -> ropeY[0]--;
-        }
+        return result;
 
     }
 
-    private void followPrevious(int idx) {
+
+    private static void followPrevious(int idx, int[] ropeX, int[] ropeY) {
 
         int x = ropeX[idx];
         int y = ropeY[idx];
@@ -96,64 +100,10 @@ public class Day09 {
 
     }
 
-    private void moveHead(String direction) {
 
-        switch (direction) {
-            case "R" -> hx++;
-            case "L" -> hx--;
-            case "U" -> hy--;
-            case "D" -> hy++;
-        }
-
-    }
-
-    private void follow(String direction) {
-
-        if (tx == hx && ty == hy)
-            return;
-
-       switch (direction) {
-
-           case("R"):
-               if (hx - tx > 1) {
-                   tx++;
-                   ty += (hy - ty);
-               }
-               break;
-           case("L"):
-               if (tx - hx > 1) {
-                   tx--;
-                   ty += (hy - ty);
-               }
-               break;
-           case("D"):
-               if (hy - ty > 1) {
-                   ty++;
-                   tx += (hx - tx);
-               }
-               break;
-           case("U"):
-               if (ty - hy > 1) {
-                   ty--;
-                   tx += (hx - tx);
-               }
-               break;
-
-        }
-
-    }
-
-
-    private String stringify(int x, int y) {
+    private static String stringify(int x, int y) {
 
         return x + " " + y;
-
-    }
-
-
-    public static void  main(String[] args) {
-
-        new Day09();
 
     }
 
