@@ -6,37 +6,29 @@ import java.util.List;
 public class Monkey {
 
     int id;
-    ArrayList<Integer> items;
+    ArrayList<Long> items;
     Operation operation;
-    Test test;
 
     int targetTrue;
     int targetFalse;
 
-    int inspections;
+    long inspections;
 
+    int mod;
 
     public interface Operation {
-        int operate(int value);
+        long operate(long value);
     }
 
-    public interface Test {
-        boolean test(int value);
-    }
-
-    public Monkey(int id, List<Integer> items, Operation operation, Test test, int targetTrue, int targetFalse) {
+    public Monkey(int id, List<Long> items, Operation operation, int targetTrue, int targetFalse, int mod) {
         this.id = id;
         this.items = new ArrayList<>(items);
         this.operation = operation;
-        this.test = test;
         this.targetTrue = targetTrue;
         this.targetFalse = targetFalse;
+        this.mod = mod;
 
         inspections = 0;
     }
 
-    @Override
-    public String toString() {
-        return String.format("Monkey (%s, %s, %s, %s, %s, %s", id, items, operation, test, targetTrue, targetFalse);
-    }
 }
