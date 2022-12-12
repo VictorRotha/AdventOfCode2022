@@ -13,4 +13,6 @@
 - [Day 09: Rope Bridge](src/day09/Day09.java)
 - [Day 10: Cathode-Ray Tube](src/day10/Day10.java)
 - [Day 11: Monkey in the Middle](src/day11/Day11.java)
+- [Day 12: Hill Climbing Algorithm](src/day12/Day12.java)
+
 
