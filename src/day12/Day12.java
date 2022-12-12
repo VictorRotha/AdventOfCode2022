@@ -11,6 +11,8 @@ public class Day12 {
     public static int GRID_HEIGHT;
     public static int START_IDX;
     public static int END_IDX;
+    public static final int PART_ONE = 1;
+    public static final int PART_TWO = 2;
 
     public static void main(String[] args) {
 
@@ -19,34 +21,39 @@ public class Day12 {
         HashMap<Integer, Node> nodes = getInput(filename);
 
         System.out.println("start idx " + START_IDX +" end idx " + END_IDX);
-        System.out.println("grid width  " + GRID_WIDTH + " grid height " + GRID_HEIGHT );
+        System.out.println("grid w " + GRID_WIDTH + " h " + GRID_HEIGHT );
         System.out.println("total nodes " + GRID_WIDTH * GRID_HEIGHT);
+        System.out.println();
 
-        shortestWayFromStart(nodes);
+        System.out.println("Part 01 shortest way: "  + shortestWayFromStart(nodes, PART_ONE));
+
+        nodes = getInput(filename);
+
+        System.out.println("Part 02 shortest way: " + shortestWayFromStart(nodes, PART_TWO));
 
     }
 
-    public static void shortestWayFromStart(HashMap<Integer, Node> nodes) {
+    public static int shortestWayFromStart(HashMap<Integer, Node> nodes, int part) {
 
         ArrayList<Integer> queue = new ArrayList<>();
         ArrayList<Integer> visited = new ArrayList<>();
 
-        queue.add(START_IDX);
-        nodes.get(START_IDX).distance = 0;
+        queue.add((part == PART_ONE) ? START_IDX : END_IDX);
+
+        nodes.get(queue.get(0)).distance = 0;
 
         while (queue.size() > 0) {
 
             Node node = nodes.get(queue.get(0));
 
-            if (node.idx == END_IDX) {
-                System.out.println("found target after "  + node.distance + " steps (visited: " + visited.size() + ")");
-                break;
+            if ((part == PART_ONE && node.idx == END_IDX) || (part == PART_TWO && node.level == 0)) {
+                return node.distance;
             }
 
             queue.remove(0);
             visited.add(node.idx);
 
-            List<Node> nbs = getNeighbours(node, visited, nodes);
+            List<Node> nbs = getNeighbours(node, visited, nodes, part);
 
             int distance = node.distance + 1;
             for (Node nb: nbs) {
@@ -54,7 +61,6 @@ public class Day12 {
                     nb.distance = distance;
                 if (!queue.contains(nb.idx))
                     queue.add(nb.idx);
-
             }
 
             queue.sort((o1, o2) -> {
@@ -64,20 +70,19 @@ public class Day12 {
 
             });
 
-
         }
 
-
+        return -1;
 
     }
 
-    public static List<Node> getNeighbours(Node node, List<Integer> visited, HashMap<Integer, Node> nodes) {
+
+    public static List<Node> getNeighbours(Node node, List<Integer> visited, HashMap<Integer, Node> nodes, int part) {
 
         ArrayList<Node> result = new ArrayList<>();
 
         int row = node.idx / GRID_WIDTH;
         int col = node.idx % GRID_WIDTH;
-
 
         if (row < GRID_HEIGHT - 1)
             result.add(nodes.get(node.idx + GRID_WIDTH));
@@ -91,10 +96,9 @@ public class Day12 {
         if (col > 0)
             result.add(nodes.get(node.idx - 1));
 
-
         result.removeIf(nb -> visited.contains(nb.idx));
 
-        result.removeIf(nb -> nb.level - node.level > 1);
+        result.removeIf((part == PART_ONE) ? nb -> nb.level - node.level > 1 : nb -> node.level - nb.level > 1);
 
         return result;
 
