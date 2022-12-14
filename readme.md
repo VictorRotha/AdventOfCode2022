@@ -14,6 +14,7 @@
 - [Day 10: Cathode-Ray Tube](src/day10/Day10.java)
 - [Day 11: Monkey in the Middle](src/day11/Day11.java)
 - [Day 12: Hill Climbing Algorithm](src/day12/Day12.java)
-- [Day 12: Distress Signal](src/day13/Day13.java)
+- [Day 13: Distress Signal](src/day13/Day13.java)
+- [Day 14: Regolith Reservoir](src/day14/Day14.java)
 
 
