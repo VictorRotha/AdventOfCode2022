@@ -16,5 +16,6 @@
 - [Day 12: Hill Climbing Algorithm](src/day12/Day12.java)
 - [Day 13: Distress Signal](src/day13/Day13.java)
 - [Day 14: Regolith Reservoir](src/day14/Day14.java)
+- [Day 15: Beacon Exclusion Zone](src/day15/Day15.java)
 
 
